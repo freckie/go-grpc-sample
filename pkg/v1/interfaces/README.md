@@ -1,3 +1,3 @@
-# /pkg/v1/interface
+# /pkg/v1/interfaces
 
 - Directory for combined interfaces of repository and service.
