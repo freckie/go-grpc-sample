@@ -1,3 +1,4 @@
 # /pkg/v1/service
 
-- Service implements business logics.
+- Repository implement an interface in `../interface` directory.
+    - Actually implements business logics.
