@@ -4,11 +4,12 @@
 - The project name is temporarily set as `tdoo`, meaning todo.
 
 - The project uses:
-    - **Go**
-    - **gRPC**
-    - **Protobuf** [(link)](https://protobuf.dev/) 
-    - **go ent** for ORM [(link)](https://entgo.io/)
-    - **buf cli** for building Protobuf [(link)](https://buf.build/product/cli)
+    - **_Go_**
+    - **_gRPC_**
+    - **_Protobuf_** [(link)](https://protobuf.dev/) 
+    - **_go ent_** for ORM [(link)](https://entgo.io/)
+    - **_cobra_** for CLI tools in /cmd [(link)](https://cobra.dev/)
+    - (WIP) **_buf cli_** for building Protobuf [(link)](https://buf.build/product/cli)
 
 ## Project structure
 
