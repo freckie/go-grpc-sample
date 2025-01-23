@@ -42,9 +42,9 @@
 │   │   └── repository/
 ├── proto/
 │   └── tdoo/
-│       ├── *.proto
-│       ├── *.svc.proto (generated)
-│       └── *.svc.ext.proto
+│       ├── *.ent.proto
+│       ├── *.msg.proto
+│       └── *.svc.proto
 ├── log/
 ├── README.md
 ├── Makefile
