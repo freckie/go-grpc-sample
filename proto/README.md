@@ -4,9 +4,8 @@
 - Separate each service into its own folder and place it under this folder like `/proto/tdoo`.
 
 - Protobuf definitions (each file is the _source of truth_ for the service)
-    - `*.ent.proto`: definition of **Entity** (which is **Ent Entity**) written by developers
-    - `*.svc.proto`: definition of **Service** written by developers.
-    - `*.msg.proto`: definition of **Message** written by developers
+    - `*.proto`: definition of **Message** written by developers
+    - `*.svc.proto`: definition of **Service** written by developers
 
 ### deprecated
 
