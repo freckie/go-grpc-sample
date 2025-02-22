@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package common;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "frec.kr/tdoo/pkg/v1/gen/tdoo/common";
+
+message TimeRange {
+  google.protobuf.Timestamp after = 1;
+  google.protobuf.Timestamp before = 2;
+}

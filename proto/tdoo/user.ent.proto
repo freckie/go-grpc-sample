@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package tdoo;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+import "global/orm/orm.proto";
+
+option go_package = "frec.kr/tdoo/pkg/v1/gen/tdoo";
+
+option (orm.all) = {
+  messages: {}
+};
+
+message User {
+  bytes id = 1 [
+    (orm.field) = {
+      type: TYPE_UUID
+      key: true
+      default: ""
+    }
+  ];
+  string name = 2;
+  string nickname = 3 [
+    (orm.field) = {
+      unique: true
+    }
+  ];
+  string email = 4 [
+    (orm.field) = {
+      unique: true
+    }
+  ];
+
+  google.protobuf.Timestamp date_created = 14;
+  google.protobuf.Timestamp date_updated = 15;
+}
