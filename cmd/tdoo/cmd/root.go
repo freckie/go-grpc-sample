@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"frec.kr/tdoo/cmd/tdoo/cmd/run"
+	"frec.kr/tdoo/cmd/tdoo/cmd/template"
 	"github.com/spf13/cobra"
 )
 
@@ -12,8 +13,7 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(run.RunCmd)
-	rootCmd.PersistentFlags().String("config", "./config.yaml", "config yaml file")
+	rootCmd.AddCommand(run.RunCmd, template.TemplateCmd)
 }
 
 // Execute runs the root command.

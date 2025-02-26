@@ -42,10 +42,6 @@ func NewLogger(cfg config.LoggerConfig) *Logger {
 	return &Logger{l}
 }
 
-func NewDefaultLogger() *Logger {
-
-}
-
 func Setup(cfg config.LoggerConfig) {
 	l := NewLogger(cfg)
 	Log = l
