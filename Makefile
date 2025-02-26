@@ -11,11 +11,19 @@ install-deps:
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	@go install entgo.io/contrib/entproto/cmd/protoc-gen-entgrpc@master
 	@go install github.com/lesomnus/proto-orm/cmd/protoc-gen-orm-ent@latest
+	@go install github.com/yoheimuta/protolint/cmd/protolint@latest
+	@go install github.com/yoheimuta/protolint/cmd/protoc-gen-protolint@latest
 
 # ----------------------------------------------------------------------------
 # Codegen
 # ----------------------------------------------------------------------------
-generate: generate-proto generate-orm generate-common generate-grpc
+generate: protolint generate-proto generate-orm generate-common generate-grpc
+
+protolint:
+	@protoc -I proto \
+		--protolint_out=. \
+		--protolint_opt=fix,proto_root=proto,config_dir_path=. \
+		proto/**/*.proto
 
 generate-proto:
 	@echo "compiling entity-related proto files..."

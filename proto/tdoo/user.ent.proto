@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package tdoo;
 
-import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 
 import "global/orm/orm.proto";
 
@@ -14,25 +14,25 @@ option (orm.all) = {
 };
 
 message User {
-  bytes id = 1 [
+	bytes id = 1 [
     (orm.field) = {
       type: TYPE_UUID
       key: true
       default: ""
     }
   ];
-  string name = 2;
-  string nickname = 3 [
+	string name = 2;
+	string nickname = 3 [
     (orm.field) = {
       unique: true
     }
   ];
-  string email = 4 [
+	string email = 4 [
     (orm.field) = {
       unique: true
     }
   ];
 
-  google.protobuf.Timestamp date_created = 14;
-  google.protobuf.Timestamp date_updated = 15;
+	google.protobuf.Timestamp date_created = 14;
+	google.protobuf.Timestamp date_updated = 15;
 }

@@ -1,0 +1,35 @@
+---
+lint:
+  directories:
+    exclude:
+      - proto/global/orm
+
+  rules:
+    all_default: true
+    remove:
+      - RPCS_HAVE_COMMENT
+      - FILE_HAS_COMMENT
+      - SERVICES_HAVE_COMMENT
+      - MESSAGES_HAVE_COMMENT
+      - FIELDS_HAVE_COMMENT
+      - ENUMS_HAVE_COMMENT
+      - ENUM_FIELDS_HAVE_COMMENT
+      - FILE_NAMES_LOWER_SNAKE_CASE
+
+  rules_option:
+    max_line_length:
+      max_chars: 80
+      tab_chars: 2
+
+    indent:
+      style: tab
+      not_insert_newline: false
+
+    quote_consistent:
+      quote: double
+
+    enum_field_names_zero_value_end_with:
+      suffix: UNSPECIFIED
+
+    service_names_end_with:
+      text: Service
