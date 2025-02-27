@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package common;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "frec.kr/tdoo/pkg/v1/gen/tdoo/common";
+
+message OrderOption {
+  oneof order {
+    google.protobuf.Empty asc = 1;
+    google.protobuf.Empty desc = 2;
+  }
+}

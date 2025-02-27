@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package tdoo;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+import "global/common/order.proto";
+import "global/common/time_range.proto";
+import "global/orm/orm.proto";
+import "tdoo/task_ent.proto";
+import "tdoo/user_svc.proto";
+
+option go_package = "frec.kr/tdoo/pkg/v1/gen/tdoo";
+
+service TaskService {
+	rpc Get     (TaskGetRequest)    returns (Task);
+	rpc List    (TaskListRequest)   returns (TaskListResponse);
+	rpc Create  (TaskCreateRequest) returns (Task);
+	rpc Update  (TaskUpdateRequest) returns (Task);
+	rpc Delete  (TaskDeleteRequest) returns (google.protobuf.Empty);
+
+	rpc Shift   (TaskShiftRequest)  returns (google.protobuf.Empty);
+}
+
+message TaskRequestOptions {
+	optional google.protobuf.FieldMask read_mask = 1;
+}
+
+message TaskGetRequest {
+	oneof by {
+		bytes id = 1;
+	}
+
+	optional TaskRequestOptions params = 15;
+}
+
+message TaskListRequest {
+	repeated TaskFilter filters = 1;
+	repeated TaskOrder orders = 2;
+	optional TaskRequestOptions params = 3;
+
+	optional string page_token = 15;
+}
+
+message TaskOrder {
+	oneof by {
+		common.OrderOption status = 4;
+		common.OrderOption due_date = 5;
+		common.OrderOption date_created = 14;
+		common.OrderOption date_updated = 15;
+	}
+	reserved 1 to 3, 6 to 13;
+}
+
+message TaskFilter {
+	oneof by {
+		TaskStatus status = 4;
+		common.TimeRange due_date = 5;
+		UserGetRequest user = 6;
+		google.protobuf.Timestamp date_created = 14;
+		google.protobuf.Timestamp date_updated = 15;
+	}
+}
+
+message TaskListResponse {
+	repeated Task tasks = 1;
+
+	string next_page_token = 15;
+}
+
+message TaskCreateRequest {
+	string title = 2;
+	optional string description = 3;
+	optional TaskStatus status = 4;
+	google.protobuf.Timestamp due_date = 5;
+}
+
+message TaskUpdateRequest {
+	Task task = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message TaskDeleteRequest {
+	bytes id = 1;
+}
+
+message TaskShiftRequest {
+	bytes id = 1;
+	TaskStatus next = 2;
+}

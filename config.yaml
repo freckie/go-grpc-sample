@@ -1,0 +1,9 @@
+addr: ":8080"
+
+db:
+  driver: sqlite3
+  source: file:tmp.db?mode=memory&_fk=1&cache=shared
+
+logger:
+  level: info
+  format: text
