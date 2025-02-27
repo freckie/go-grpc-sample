@@ -15,20 +15,20 @@ import "tdoo/user_svc.proto";
 option go_package = "frec.kr/tdoo/pkg/v1/gen/tdoo";
 
 service TaskService {
-	rpc Get     (TaskGetRequest)    returns (Task);
-	rpc List    (TaskListRequest)   returns (TaskListResponse);
-	rpc Create  (TaskCreateRequest) returns (Task);
-	rpc Update  (TaskUpdateRequest) returns (Task);
-	rpc Delete  (TaskDeleteRequest) returns (google.protobuf.Empty);
+	rpc GetTask     (GetTaskRequest)    returns (Task);
+	rpc ListTask		(ListTaskRequest)   returns (ListTaskResponse);
+	rpc CreateTask	(CreateTaskRequest) returns (Task);
+	rpc UpdateTask  (UpdateTaskRequest) returns (Task);
+	rpc DeleteTask  (DeleteTaskRequest) returns (google.protobuf.Empty);
 
-	rpc Shift   (TaskShiftRequest)  returns (google.protobuf.Empty);
+	rpc ShiftTask   (ShiftTaskRequest)  returns (google.protobuf.Empty);
 }
 
 message TaskRequestOptions {
 	optional google.protobuf.FieldMask read_mask = 1;
 }
 
-message TaskGetRequest {
+message GetTaskRequest {
 	oneof by {
 		bytes id = 1;
 	}
@@ -36,7 +36,7 @@ message TaskGetRequest {
 	optional TaskRequestOptions params = 15;
 }
 
-message TaskListRequest {
+message ListTaskRequest {
 	repeated TaskFilter filters = 1;
 	repeated TaskOrder orders = 2;
 	optional TaskRequestOptions params = 3;
@@ -58,35 +58,35 @@ message TaskFilter {
 	oneof by {
 		TaskStatus status = 4;
 		common.TimeRange due_date = 5;
-		UserGetRequest user = 6;
+		GetUserRequest user = 6;
 		google.protobuf.Timestamp date_created = 14;
 		google.protobuf.Timestamp date_updated = 15;
 	}
 }
 
-message TaskListResponse {
+message ListTaskResponse {
 	repeated Task tasks = 1;
 
 	string next_page_token = 15;
 }
 
-message TaskCreateRequest {
+message CreateTaskRequest {
 	string title = 2;
 	optional string description = 3;
 	optional TaskStatus status = 4;
 	google.protobuf.Timestamp due_date = 5;
 }
 
-message TaskUpdateRequest {
+message UpdateTaskRequest {
 	Task task = 1;
 	google.protobuf.FieldMask update_mask = 2;
 }
 
-message TaskDeleteRequest {
+message DeleteTaskRequest {
 	bytes id = 1;
 }
 
-message TaskShiftRequest {
+message ShiftTaskRequest {
 	bytes id = 1;
 	TaskStatus next = 2;
 }

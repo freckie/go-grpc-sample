@@ -15,18 +15,18 @@ option go_package = "frec.kr/tdoo/pkg/v1/gen/tdoo";
 
 
 service UserService {
-	rpc Get     (UserGetRequest)    returns (User);
-	rpc List    (UserListRequest)   returns (UserListResponse);
-	rpc Create  (UserCreateRequest) returns (User);
-	rpc Update  (UserUpdateRequest) returns (User);
-	rpc Delete  (UserDeleteRequest) returns (google.protobuf.Empty);
+	rpc GetUser     (GetUserRequest)    returns (User);
+	rpc ListUser    (ListUserRequest)   returns (ListUserResponse);
+	rpc CreateUser  (CreateUserRequest) returns (User);
+	rpc UpdateUser  (UpdateUserRequest) returns (User);
+	rpc DeleteUser  (DeleteUserRequest) returns (google.protobuf.Empty);
 }
 
 message UserRequestOptions {
 	optional google.protobuf.FieldMask read_mask = 1;
 }
 
-message UserGetRequest {
+message GetUserRequest {
 	oneof by {
 		bytes id = 1;
 		string nickname = 3;
@@ -35,7 +35,7 @@ message UserGetRequest {
 	optional UserRequestOptions params = 15;
 }
 
-message UserListRequest {
+message ListUserRequest {
 	repeated UserFilter filters = 1;
 	repeated UserOrder orders = 2;
 	optional UserRequestOptions params = 3;
@@ -58,23 +58,23 @@ message UserFilter {
 	}
 }
 
-message UserListResponse {
+message ListUserResponse {
 	repeated User users = 1;
 
 	string next_page_token = 15;
 }
 
-message UserCreateRequest {
+message CreateUserRequest {
 	string name = 2;
 	string nickname = 3;
 	string email = 4;
 }
 
-message UserUpdateRequest {
+message UpdateUserRequest {
 	User user = 1;
 	google.protobuf.FieldMask update_mask = 2;
 }
 
-message UserDeleteRequest {
+message DeleteUserRequest {
 	bytes id = 1;
 }

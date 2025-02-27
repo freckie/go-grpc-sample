@@ -20,24 +20,24 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TaskService_Get_FullMethodName    = "/tdoo.TaskService/Get"
-	TaskService_List_FullMethodName   = "/tdoo.TaskService/List"
-	TaskService_Create_FullMethodName = "/tdoo.TaskService/Create"
-	TaskService_Update_FullMethodName = "/tdoo.TaskService/Update"
-	TaskService_Delete_FullMethodName = "/tdoo.TaskService/Delete"
-	TaskService_Shift_FullMethodName  = "/tdoo.TaskService/Shift"
+	TaskService_GetTask_FullMethodName    = "/tdoo.TaskService/GetTask"
+	TaskService_ListTask_FullMethodName   = "/tdoo.TaskService/ListTask"
+	TaskService_CreateTask_FullMethodName = "/tdoo.TaskService/CreateTask"
+	TaskService_UpdateTask_FullMethodName = "/tdoo.TaskService/UpdateTask"
+	TaskService_DeleteTask_FullMethodName = "/tdoo.TaskService/DeleteTask"
+	TaskService_ShiftTask_FullMethodName  = "/tdoo.TaskService/ShiftTask"
 )
 
 // TaskServiceClient is the client API for TaskService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TaskServiceClient interface {
-	Get(ctx context.Context, in *TaskGetRequest, opts ...grpc.CallOption) (*Task, error)
-	List(ctx context.Context, in *TaskListRequest, opts ...grpc.CallOption) (*TaskListResponse, error)
-	Create(ctx context.Context, in *TaskCreateRequest, opts ...grpc.CallOption) (*Task, error)
-	Update(ctx context.Context, in *TaskUpdateRequest, opts ...grpc.CallOption) (*Task, error)
-	Delete(ctx context.Context, in *TaskDeleteRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	Shift(ctx context.Context, in *TaskShiftRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetTask(ctx context.Context, in *GetTaskRequest, opts ...grpc.CallOption) (*Task, error)
+	ListTask(ctx context.Context, in *ListTaskRequest, opts ...grpc.CallOption) (*ListTaskResponse, error)
+	CreateTask(ctx context.Context, in *CreateTaskRequest, opts ...grpc.CallOption) (*Task, error)
+	UpdateTask(ctx context.Context, in *UpdateTaskRequest, opts ...grpc.CallOption) (*Task, error)
+	DeleteTask(ctx context.Context, in *DeleteTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ShiftTask(ctx context.Context, in *ShiftTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type taskServiceClient struct {
@@ -48,60 +48,60 @@ func NewTaskServiceClient(cc grpc.ClientConnInterface) TaskServiceClient {
 	return &taskServiceClient{cc}
 }
 
-func (c *taskServiceClient) Get(ctx context.Context, in *TaskGetRequest, opts ...grpc.CallOption) (*Task, error) {
+func (c *taskServiceClient) GetTask(ctx context.Context, in *GetTaskRequest, opts ...grpc.CallOption) (*Task, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Task)
-	err := c.cc.Invoke(ctx, TaskService_Get_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, TaskService_GetTask_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *taskServiceClient) List(ctx context.Context, in *TaskListRequest, opts ...grpc.CallOption) (*TaskListResponse, error) {
+func (c *taskServiceClient) ListTask(ctx context.Context, in *ListTaskRequest, opts ...grpc.CallOption) (*ListTaskResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TaskListResponse)
-	err := c.cc.Invoke(ctx, TaskService_List_FullMethodName, in, out, cOpts...)
+	out := new(ListTaskResponse)
+	err := c.cc.Invoke(ctx, TaskService_ListTask_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *taskServiceClient) Create(ctx context.Context, in *TaskCreateRequest, opts ...grpc.CallOption) (*Task, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Task)
-	err := c.cc.Invoke(ctx, TaskService_Create_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *taskServiceClient) Update(ctx context.Context, in *TaskUpdateRequest, opts ...grpc.CallOption) (*Task, error) {
+func (c *taskServiceClient) CreateTask(ctx context.Context, in *CreateTaskRequest, opts ...grpc.CallOption) (*Task, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Task)
-	err := c.cc.Invoke(ctx, TaskService_Update_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, TaskService_CreateTask_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *taskServiceClient) Delete(ctx context.Context, in *TaskDeleteRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *taskServiceClient) UpdateTask(ctx context.Context, in *UpdateTaskRequest, opts ...grpc.CallOption) (*Task, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Task)
+	err := c.cc.Invoke(ctx, TaskService_UpdateTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskServiceClient) DeleteTask(ctx context.Context, in *DeleteTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, TaskService_Delete_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, TaskService_DeleteTask_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *taskServiceClient) Shift(ctx context.Context, in *TaskShiftRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *taskServiceClient) ShiftTask(ctx context.Context, in *ShiftTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, TaskService_Shift_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, TaskService_ShiftTask_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -112,12 +112,12 @@ func (c *taskServiceClient) Shift(ctx context.Context, in *TaskShiftRequest, opt
 // All implementations must embed UnimplementedTaskServiceServer
 // for forward compatibility.
 type TaskServiceServer interface {
-	Get(context.Context, *TaskGetRequest) (*Task, error)
-	List(context.Context, *TaskListRequest) (*TaskListResponse, error)
-	Create(context.Context, *TaskCreateRequest) (*Task, error)
-	Update(context.Context, *TaskUpdateRequest) (*Task, error)
-	Delete(context.Context, *TaskDeleteRequest) (*emptypb.Empty, error)
-	Shift(context.Context, *TaskShiftRequest) (*emptypb.Empty, error)
+	GetTask(context.Context, *GetTaskRequest) (*Task, error)
+	ListTask(context.Context, *ListTaskRequest) (*ListTaskResponse, error)
+	CreateTask(context.Context, *CreateTaskRequest) (*Task, error)
+	UpdateTask(context.Context, *UpdateTaskRequest) (*Task, error)
+	DeleteTask(context.Context, *DeleteTaskRequest) (*emptypb.Empty, error)
+	ShiftTask(context.Context, *ShiftTaskRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedTaskServiceServer()
 }
 
@@ -128,23 +128,23 @@ type TaskServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedTaskServiceServer struct{}
 
-func (UnimplementedTaskServiceServer) Get(context.Context, *TaskGetRequest) (*Task, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+func (UnimplementedTaskServiceServer) GetTask(context.Context, *GetTaskRequest) (*Task, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTask not implemented")
 }
-func (UnimplementedTaskServiceServer) List(context.Context, *TaskListRequest) (*TaskListResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
+func (UnimplementedTaskServiceServer) ListTask(context.Context, *ListTaskRequest) (*ListTaskResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTask not implemented")
 }
-func (UnimplementedTaskServiceServer) Create(context.Context, *TaskCreateRequest) (*Task, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+func (UnimplementedTaskServiceServer) CreateTask(context.Context, *CreateTaskRequest) (*Task, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTask not implemented")
 }
-func (UnimplementedTaskServiceServer) Update(context.Context, *TaskUpdateRequest) (*Task, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+func (UnimplementedTaskServiceServer) UpdateTask(context.Context, *UpdateTaskRequest) (*Task, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTask not implemented")
 }
-func (UnimplementedTaskServiceServer) Delete(context.Context, *TaskDeleteRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+func (UnimplementedTaskServiceServer) DeleteTask(context.Context, *DeleteTaskRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTask not implemented")
 }
-func (UnimplementedTaskServiceServer) Shift(context.Context, *TaskShiftRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Shift not implemented")
+func (UnimplementedTaskServiceServer) ShiftTask(context.Context, *ShiftTaskRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ShiftTask not implemented")
 }
 func (UnimplementedTaskServiceServer) mustEmbedUnimplementedTaskServiceServer() {}
 func (UnimplementedTaskServiceServer) testEmbeddedByValue()                     {}
@@ -167,110 +167,110 @@ func RegisterTaskServiceServer(s grpc.ServiceRegistrar, srv TaskServiceServer) {
 	s.RegisterService(&TaskService_ServiceDesc, srv)
 }
 
-func _TaskService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TaskGetRequest)
+func _TaskService_GetTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTaskRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TaskServiceServer).Get(ctx, in)
+		return srv.(TaskServiceServer).GetTask(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TaskService_Get_FullMethodName,
+		FullMethod: TaskService_GetTask_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TaskServiceServer).Get(ctx, req.(*TaskGetRequest))
+		return srv.(TaskServiceServer).GetTask(ctx, req.(*GetTaskRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TaskService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TaskListRequest)
+func _TaskService_ListTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTaskRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TaskServiceServer).List(ctx, in)
+		return srv.(TaskServiceServer).ListTask(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TaskService_List_FullMethodName,
+		FullMethod: TaskService_ListTask_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TaskServiceServer).List(ctx, req.(*TaskListRequest))
+		return srv.(TaskServiceServer).ListTask(ctx, req.(*ListTaskRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TaskService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TaskCreateRequest)
+func _TaskService_CreateTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTaskRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TaskServiceServer).Create(ctx, in)
+		return srv.(TaskServiceServer).CreateTask(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TaskService_Create_FullMethodName,
+		FullMethod: TaskService_CreateTask_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TaskServiceServer).Create(ctx, req.(*TaskCreateRequest))
+		return srv.(TaskServiceServer).CreateTask(ctx, req.(*CreateTaskRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TaskService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TaskUpdateRequest)
+func _TaskService_UpdateTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTaskRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TaskServiceServer).Update(ctx, in)
+		return srv.(TaskServiceServer).UpdateTask(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TaskService_Update_FullMethodName,
+		FullMethod: TaskService_UpdateTask_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TaskServiceServer).Update(ctx, req.(*TaskUpdateRequest))
+		return srv.(TaskServiceServer).UpdateTask(ctx, req.(*UpdateTaskRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TaskService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TaskDeleteRequest)
+func _TaskService_DeleteTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTaskRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TaskServiceServer).Delete(ctx, in)
+		return srv.(TaskServiceServer).DeleteTask(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TaskService_Delete_FullMethodName,
+		FullMethod: TaskService_DeleteTask_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TaskServiceServer).Delete(ctx, req.(*TaskDeleteRequest))
+		return srv.(TaskServiceServer).DeleteTask(ctx, req.(*DeleteTaskRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TaskService_Shift_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TaskShiftRequest)
+func _TaskService_ShiftTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShiftTaskRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TaskServiceServer).Shift(ctx, in)
+		return srv.(TaskServiceServer).ShiftTask(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TaskService_Shift_FullMethodName,
+		FullMethod: TaskService_ShiftTask_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TaskServiceServer).Shift(ctx, req.(*TaskShiftRequest))
+		return srv.(TaskServiceServer).ShiftTask(ctx, req.(*ShiftTaskRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -283,28 +283,28 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*TaskServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Get",
-			Handler:    _TaskService_Get_Handler,
+			MethodName: "GetTask",
+			Handler:    _TaskService_GetTask_Handler,
 		},
 		{
-			MethodName: "List",
-			Handler:    _TaskService_List_Handler,
+			MethodName: "ListTask",
+			Handler:    _TaskService_ListTask_Handler,
 		},
 		{
-			MethodName: "Create",
-			Handler:    _TaskService_Create_Handler,
+			MethodName: "CreateTask",
+			Handler:    _TaskService_CreateTask_Handler,
 		},
 		{
-			MethodName: "Update",
-			Handler:    _TaskService_Update_Handler,
+			MethodName: "UpdateTask",
+			Handler:    _TaskService_UpdateTask_Handler,
 		},
 		{
-			MethodName: "Delete",
-			Handler:    _TaskService_Delete_Handler,
+			MethodName: "DeleteTask",
+			Handler:    _TaskService_DeleteTask_Handler,
 		},
 		{
-			MethodName: "Shift",
-			Handler:    _TaskService_Shift_Handler,
+			MethodName: "ShiftTask",
+			Handler:    _TaskService_ShiftTask_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
