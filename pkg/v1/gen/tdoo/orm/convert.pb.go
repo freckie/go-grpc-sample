@@ -7,6 +7,18 @@ import (
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
+func (e *Checklist) Proto() *tdoo.Checklist {
+	m := &tdoo.Checklist{}
+	m.SetId(e.ID[:])
+	m.SetTitle(e.Title)
+	m.SetFinished(e.Finished)
+	if v := e.Edges.Task; v != nil {
+		m.SetTask(v.Proto())
+	}
+
+	return m
+}
+
 func (e *Task) Proto() *tdoo.Task {
 	m := &tdoo.Task{}
 	m.SetId(e.ID[:])

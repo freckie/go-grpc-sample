@@ -20,27 +20,27 @@ func NewUserService(user *repository.UserRepository) *UserService {
 	}
 }
 
-func (u UserService) Get(ctx context.Context, req *tdoo.UserGetRequest) (*tdoo.User, error) {
+func (u UserService) Get(ctx context.Context, req *tdoo.GetUserRequest) (*tdoo.User, error) {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (u UserService) List(ctx context.Context, req *tdoo.UserListRequest) (*tdoo.UserListResponse, error) {
+func (u UserService) List(ctx context.Context, req *tdoo.ListUserRequest) (*tdoo.ListUserResponse, error) {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (u UserService) Create(ctx context.Context, req *tdoo.UserCreateRequest) (*tdoo.User, error) {
+func (u UserService) Create(ctx context.Context, req *tdoo.CreateUserRequest) (*tdoo.User, error) {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (u UserService) Update(ctx context.Context, req *tdoo.UserUpdateRequest) (*tdoo.User, error) {
+func (u UserService) Update(ctx context.Context, req *tdoo.UpdateUserRequest) (*tdoo.User, error) {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (u UserService) Delete(ctx context.Context, req *tdoo.UserDeleteRequest) (*emptypb.Empty, error) {
+func (u UserService) Delete(ctx context.Context, req *tdoo.DeleteUserRequest) (*emptypb.Empty, error) {
 	// TODO implement me
 	panic("implement me")
 }

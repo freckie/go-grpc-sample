@@ -20,32 +20,32 @@ func NewTaskHandler(svc *service.TaskService) *TaskHandler {
 	return &TaskHandler{svc: svc}
 }
 
-func (t TaskHandler) Get(ctx context.Context, req *tdoo.TaskGetRequest) (*tdoo.Task, error) {
+func (t TaskHandler) Get(ctx context.Context, req *tdoo.GetTaskRequest) (*tdoo.Task, error) {
 	// TODO implement me
 	return nil, status.Error(codes.Unimplemented, "not implemented yet")
 }
 
-func (t TaskHandler) List(ctx context.Context, req *tdoo.TaskListRequest) (*tdoo.TaskListResponse, error) {
+func (t TaskHandler) List(ctx context.Context, req *tdoo.ListTaskRequest) (*tdoo.ListTaskResponse, error) {
 	// TODO implement me
 	return nil, status.Error(codes.Unimplemented, "not implemented yet")
 }
 
-func (t TaskHandler) Create(ctx context.Context, req *tdoo.TaskCreateRequest) (*tdoo.Task, error) {
+func (t TaskHandler) Create(ctx context.Context, req *tdoo.CreateTaskRequest) (*tdoo.Task, error) {
 	// TODO implement me
 	return nil, status.Error(codes.Unimplemented, "not implemented yet")
 }
 
-func (t TaskHandler) Update(ctx context.Context, req *tdoo.TaskUpdateRequest) (*tdoo.Task, error) {
+func (t TaskHandler) Update(ctx context.Context, req *tdoo.UpdateTaskRequest) (*tdoo.Task, error) {
 	// TODO implement me
 	return nil, status.Error(codes.Unimplemented, "not implemented yet")
 }
 
-func (t TaskHandler) Delete(ctx context.Context, req *tdoo.TaskDeleteRequest) (*emptypb.Empty, error) {
+func (t TaskHandler) Delete(ctx context.Context, req *tdoo.DeleteTaskRequest) (*emptypb.Empty, error) {
 	// TODO implement me
 	return nil, status.Error(codes.Unimplemented, "not implemented yet")
 }
 
-func (t TaskHandler) Shift(ctx context.Context, req *tdoo.TaskShiftRequest) (*emptypb.Empty, error) {
+func (t TaskHandler) Shift(ctx context.Context, req *tdoo.ShiftTaskRequest) (*emptypb.Empty, error) {
 	// TODO implement me
 	return nil, status.Error(codes.Unimplemented, "not implemented yet")
 }

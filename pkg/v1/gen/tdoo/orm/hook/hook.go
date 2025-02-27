@@ -9,6 +9,18 @@ import (
 	"frec.kr/tdoo/pkg/v1/gen/tdoo/orm"
 )
 
+// The ChecklistFunc type is an adapter to allow the use of ordinary
+// function as Checklist mutator.
+type ChecklistFunc func(context.Context, *orm.ChecklistMutation) (orm.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f ChecklistFunc) Mutate(ctx context.Context, m orm.Mutation) (orm.Value, error) {
+	if mv, ok := m.(*orm.ChecklistMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *orm.ChecklistMutation", m)
+}
+
 // The TaskFunc type is an adapter to allow the use of ordinary
 // function as Task mutator.
 type TaskFunc func(context.Context, *orm.TaskMutation) (orm.Value, error)

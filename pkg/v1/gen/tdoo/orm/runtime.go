@@ -3,6 +3,7 @@
 package orm
 
 import (
+	"frec.kr/tdoo/pkg/v1/gen/tdoo/orm/checklist"
 	"frec.kr/tdoo/pkg/v1/gen/tdoo/orm/task"
 	"frec.kr/tdoo/pkg/v1/gen/tdoo/orm/user"
 	"frec.kr/tdoo/pkg/v1/gen/tdoo/schema"
@@ -13,6 +14,12 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	checklistFields := schema.Checklist{}.Fields()
+	_ = checklistFields
+	// checklistDescID is the schema descriptor for id field.
+	checklistDescID := checklistFields[0].Descriptor()
+	// checklist.DefaultID holds the default value on creation for the id field.
+	checklist.DefaultID = checklistDescID.Default.(func() uuid.UUID)
 	taskFields := schema.Task{}.Fields()
 	_ = taskFields
 	// taskDescID is the schema descriptor for id field.

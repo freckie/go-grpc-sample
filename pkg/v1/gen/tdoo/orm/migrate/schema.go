@@ -8,6 +8,27 @@ import (
 )
 
 var (
+	// ChecklistsColumns holds the columns for the "checklists" table.
+	ChecklistsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUUID, Unique: true},
+		{Name: "title", Type: field.TypeString},
+		{Name: "finished", Type: field.TypeBool},
+		{Name: "checklist_task", Type: field.TypeUUID},
+	}
+	// ChecklistsTable holds the schema information for the "checklists" table.
+	ChecklistsTable = &schema.Table{
+		Name:       "checklists",
+		Columns:    ChecklistsColumns,
+		PrimaryKey: []*schema.Column{ChecklistsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "checklists_tasks_task",
+				Columns:    []*schema.Column{ChecklistsColumns[3]},
+				RefColumns: []*schema.Column{TasksColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
 	// TasksColumns holds the columns for the "tasks" table.
 	TasksColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID, Unique: true},
@@ -50,11 +71,13 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		ChecklistsTable,
 		TasksTable,
 		UsersTable,
 	}
 )
 
 func init() {
+	ChecklistsTable.ForeignKeys[0].RefTable = TasksTable
 	TasksTable.ForeignKeys[0].RefTable = UsersTable
 }

@@ -16,6 +16,7 @@ import (
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"frec.kr/tdoo/pkg/v1/gen/tdoo/orm/checklist"
 	"frec.kr/tdoo/pkg/v1/gen/tdoo/orm/task"
 	"frec.kr/tdoo/pkg/v1/gen/tdoo/orm/user"
 )
@@ -25,6 +26,8 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
+	// Checklist is the client for interacting with the Checklist builders.
+	Checklist *ChecklistClient
 	// Task is the client for interacting with the Task builders.
 	Task *TaskClient
 	// User is the client for interacting with the User builders.
@@ -40,6 +43,7 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
+	c.Checklist = NewChecklistClient(c.config)
 	c.Task = NewTaskClient(c.config)
 	c.User = NewUserClient(c.config)
 }
@@ -132,10 +136,11 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:    ctx,
-		config: cfg,
-		Task:   NewTaskClient(cfg),
-		User:   NewUserClient(cfg),
+		ctx:       ctx,
+		config:    cfg,
+		Checklist: NewChecklistClient(cfg),
+		Task:      NewTaskClient(cfg),
+		User:      NewUserClient(cfg),
 	}, nil
 }
 
@@ -153,17 +158,18 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:    ctx,
-		config: cfg,
-		Task:   NewTaskClient(cfg),
-		User:   NewUserClient(cfg),
+		ctx:       ctx,
+		config:    cfg,
+		Checklist: NewChecklistClient(cfg),
+		Task:      NewTaskClient(cfg),
+		User:      NewUserClient(cfg),
 	}, nil
 }
 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		Task.
+//		Checklist.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -185,6 +191,7 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
+	c.Checklist.Use(hooks...)
 	c.Task.Use(hooks...)
 	c.User.Use(hooks...)
 }
@@ -192,6 +199,7 @@ func (c *Client) Use(hooks ...Hook) {
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
+	c.Checklist.Intercept(interceptors...)
 	c.Task.Intercept(interceptors...)
 	c.User.Intercept(interceptors...)
 }
@@ -199,12 +207,163 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
+	case *ChecklistMutation:
+		return c.Checklist.mutate(ctx, m)
 	case *TaskMutation:
 		return c.Task.mutate(ctx, m)
 	case *UserMutation:
 		return c.User.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("orm: unknown mutation type %T", m)
+	}
+}
+
+// ChecklistClient is a client for the Checklist schema.
+type ChecklistClient struct {
+	config
+}
+
+// NewChecklistClient returns a client for the Checklist from the given config.
+func NewChecklistClient(c config) *ChecklistClient {
+	return &ChecklistClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `checklist.Hooks(f(g(h())))`.
+func (c *ChecklistClient) Use(hooks ...Hook) {
+	c.hooks.Checklist = append(c.hooks.Checklist, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `checklist.Intercept(f(g(h())))`.
+func (c *ChecklistClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Checklist = append(c.inters.Checklist, interceptors...)
+}
+
+// Create returns a builder for creating a Checklist entity.
+func (c *ChecklistClient) Create() *ChecklistCreate {
+	mutation := newChecklistMutation(c.config, OpCreate)
+	return &ChecklistCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Checklist entities.
+func (c *ChecklistClient) CreateBulk(builders ...*ChecklistCreate) *ChecklistCreateBulk {
+	return &ChecklistCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *ChecklistClient) MapCreateBulk(slice any, setFunc func(*ChecklistCreate, int)) *ChecklistCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &ChecklistCreateBulk{err: fmt.Errorf("calling to ChecklistClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*ChecklistCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &ChecklistCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Checklist.
+func (c *ChecklistClient) Update() *ChecklistUpdate {
+	mutation := newChecklistMutation(c.config, OpUpdate)
+	return &ChecklistUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *ChecklistClient) UpdateOne(ch *Checklist) *ChecklistUpdateOne {
+	mutation := newChecklistMutation(c.config, OpUpdateOne, withChecklist(ch))
+	return &ChecklistUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *ChecklistClient) UpdateOneID(id uuid.UUID) *ChecklistUpdateOne {
+	mutation := newChecklistMutation(c.config, OpUpdateOne, withChecklistID(id))
+	return &ChecklistUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Checklist.
+func (c *ChecklistClient) Delete() *ChecklistDelete {
+	mutation := newChecklistMutation(c.config, OpDelete)
+	return &ChecklistDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *ChecklistClient) DeleteOne(ch *Checklist) *ChecklistDeleteOne {
+	return c.DeleteOneID(ch.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *ChecklistClient) DeleteOneID(id uuid.UUID) *ChecklistDeleteOne {
+	builder := c.Delete().Where(checklist.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &ChecklistDeleteOne{builder}
+}
+
+// Query returns a query builder for Checklist.
+func (c *ChecklistClient) Query() *ChecklistQuery {
+	return &ChecklistQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeChecklist},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Checklist entity by its id.
+func (c *ChecklistClient) Get(ctx context.Context, id uuid.UUID) (*Checklist, error) {
+	return c.Query().Where(checklist.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *ChecklistClient) GetX(ctx context.Context, id uuid.UUID) *Checklist {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryTask queries the task edge of a Checklist.
+func (c *ChecklistClient) QueryTask(ch *Checklist) *TaskQuery {
+	query := (&TaskClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := ch.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(checklist.Table, checklist.FieldID, id),
+			sqlgraph.To(task.Table, task.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, checklist.TaskTable, checklist.TaskColumn),
+		)
+		fromV = sqlgraph.Neighbors(ch.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *ChecklistClient) Hooks() []Hook {
+	return c.hooks.Checklist
+}
+
+// Interceptors returns the client interceptors.
+func (c *ChecklistClient) Interceptors() []Interceptor {
+	return c.inters.Checklist
+}
+
+func (c *ChecklistClient) mutate(ctx context.Context, m *ChecklistMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&ChecklistCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&ChecklistUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&ChecklistUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&ChecklistDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("orm: unknown Checklist mutation op: %q", m.Op())
 	}
 }
 
@@ -493,9 +652,9 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Task, User []ent.Hook
+		Checklist, Task, User []ent.Hook
 	}
 	inters struct {
-		Task, User []ent.Interceptor
+		Checklist, Task, User []ent.Interceptor
 	}
 )

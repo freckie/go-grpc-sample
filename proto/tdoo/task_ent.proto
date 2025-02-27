@@ -40,3 +40,18 @@ enum TaskStatus {
 	TASK_STATUS_IN_PROGRESS = 2;
 	TASK_STATUS_DONE = 3;
 }
+
+message Checklist {
+	bytes id = 1 [
+		(orm.field) = {
+			type: TYPE_UUID
+			key: true
+			default: ""
+		}
+	];
+	string title = 2;
+	bool finished = 3;
+	Task task = 4 [
+		(orm.edge) = {}
+	];
+}

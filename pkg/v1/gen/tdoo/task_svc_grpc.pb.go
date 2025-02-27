@@ -20,12 +20,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TaskService_GetTask_FullMethodName    = "/tdoo.TaskService/GetTask"
-	TaskService_ListTask_FullMethodName   = "/tdoo.TaskService/ListTask"
-	TaskService_CreateTask_FullMethodName = "/tdoo.TaskService/CreateTask"
-	TaskService_UpdateTask_FullMethodName = "/tdoo.TaskService/UpdateTask"
-	TaskService_DeleteTask_FullMethodName = "/tdoo.TaskService/DeleteTask"
-	TaskService_ShiftTask_FullMethodName  = "/tdoo.TaskService/ShiftTask"
+	TaskService_GetTask_FullMethodName         = "/tdoo.TaskService/GetTask"
+	TaskService_ListTask_FullMethodName        = "/tdoo.TaskService/ListTask"
+	TaskService_CreateTask_FullMethodName      = "/tdoo.TaskService/CreateTask"
+	TaskService_UpdateTask_FullMethodName      = "/tdoo.TaskService/UpdateTask"
+	TaskService_DeleteTask_FullMethodName      = "/tdoo.TaskService/DeleteTask"
+	TaskService_ShiftTask_FullMethodName       = "/tdoo.TaskService/ShiftTask"
+	TaskService_ListChecklist_FullMethodName   = "/tdoo.TaskService/ListChecklist"
+	TaskService_CreateChecklist_FullMethodName = "/tdoo.TaskService/CreateChecklist"
+	TaskService_UpdateChecklist_FullMethodName = "/tdoo.TaskService/UpdateChecklist"
+	TaskService_DeleteChecklist_FullMethodName = "/tdoo.TaskService/DeleteChecklist"
 )
 
 // TaskServiceClient is the client API for TaskService service.
@@ -36,8 +40,12 @@ type TaskServiceClient interface {
 	ListTask(ctx context.Context, in *ListTaskRequest, opts ...grpc.CallOption) (*ListTaskResponse, error)
 	CreateTask(ctx context.Context, in *CreateTaskRequest, opts ...grpc.CallOption) (*Task, error)
 	UpdateTask(ctx context.Context, in *UpdateTaskRequest, opts ...grpc.CallOption) (*Task, error)
-	DeleteTask(ctx context.Context, in *DeleteTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteTask(ctx context.Context, in *GetTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ShiftTask(ctx context.Context, in *ShiftTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ListChecklist(ctx context.Context, in *GetTaskRequest, opts ...grpc.CallOption) (*ListChecklistResponse, error)
+	CreateChecklist(ctx context.Context, in *CreateChecklistRequest, opts ...grpc.CallOption) (*Checklist, error)
+	UpdateChecklist(ctx context.Context, in *UpdateChecklistRequest, opts ...grpc.CallOption) (*Checklist, error)
+	DeleteChecklist(ctx context.Context, in *GetChecklistRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type taskServiceClient struct {
@@ -88,7 +96,7 @@ func (c *taskServiceClient) UpdateTask(ctx context.Context, in *UpdateTaskReques
 	return out, nil
 }
 
-func (c *taskServiceClient) DeleteTask(ctx context.Context, in *DeleteTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *taskServiceClient) DeleteTask(ctx context.Context, in *GetTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, TaskService_DeleteTask_FullMethodName, in, out, cOpts...)
@@ -108,6 +116,46 @@ func (c *taskServiceClient) ShiftTask(ctx context.Context, in *ShiftTaskRequest,
 	return out, nil
 }
 
+func (c *taskServiceClient) ListChecklist(ctx context.Context, in *GetTaskRequest, opts ...grpc.CallOption) (*ListChecklistResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListChecklistResponse)
+	err := c.cc.Invoke(ctx, TaskService_ListChecklist_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskServiceClient) CreateChecklist(ctx context.Context, in *CreateChecklistRequest, opts ...grpc.CallOption) (*Checklist, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Checklist)
+	err := c.cc.Invoke(ctx, TaskService_CreateChecklist_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskServiceClient) UpdateChecklist(ctx context.Context, in *UpdateChecklistRequest, opts ...grpc.CallOption) (*Checklist, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Checklist)
+	err := c.cc.Invoke(ctx, TaskService_UpdateChecklist_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskServiceClient) DeleteChecklist(ctx context.Context, in *GetChecklistRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, TaskService_DeleteChecklist_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TaskServiceServer is the server API for TaskService service.
 // All implementations must embed UnimplementedTaskServiceServer
 // for forward compatibility.
@@ -116,8 +164,12 @@ type TaskServiceServer interface {
 	ListTask(context.Context, *ListTaskRequest) (*ListTaskResponse, error)
 	CreateTask(context.Context, *CreateTaskRequest) (*Task, error)
 	UpdateTask(context.Context, *UpdateTaskRequest) (*Task, error)
-	DeleteTask(context.Context, *DeleteTaskRequest) (*emptypb.Empty, error)
+	DeleteTask(context.Context, *GetTaskRequest) (*emptypb.Empty, error)
 	ShiftTask(context.Context, *ShiftTaskRequest) (*emptypb.Empty, error)
+	ListChecklist(context.Context, *GetTaskRequest) (*ListChecklistResponse, error)
+	CreateChecklist(context.Context, *CreateChecklistRequest) (*Checklist, error)
+	UpdateChecklist(context.Context, *UpdateChecklistRequest) (*Checklist, error)
+	DeleteChecklist(context.Context, *GetChecklistRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedTaskServiceServer()
 }
 
@@ -140,11 +192,23 @@ func (UnimplementedTaskServiceServer) CreateTask(context.Context, *CreateTaskReq
 func (UnimplementedTaskServiceServer) UpdateTask(context.Context, *UpdateTaskRequest) (*Task, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTask not implemented")
 }
-func (UnimplementedTaskServiceServer) DeleteTask(context.Context, *DeleteTaskRequest) (*emptypb.Empty, error) {
+func (UnimplementedTaskServiceServer) DeleteTask(context.Context, *GetTaskRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTask not implemented")
 }
 func (UnimplementedTaskServiceServer) ShiftTask(context.Context, *ShiftTaskRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ShiftTask not implemented")
+}
+func (UnimplementedTaskServiceServer) ListChecklist(context.Context, *GetTaskRequest) (*ListChecklistResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListChecklist not implemented")
+}
+func (UnimplementedTaskServiceServer) CreateChecklist(context.Context, *CreateChecklistRequest) (*Checklist, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateChecklist not implemented")
+}
+func (UnimplementedTaskServiceServer) UpdateChecklist(context.Context, *UpdateChecklistRequest) (*Checklist, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateChecklist not implemented")
+}
+func (UnimplementedTaskServiceServer) DeleteChecklist(context.Context, *GetChecklistRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteChecklist not implemented")
 }
 func (UnimplementedTaskServiceServer) mustEmbedUnimplementedTaskServiceServer() {}
 func (UnimplementedTaskServiceServer) testEmbeddedByValue()                     {}
@@ -240,7 +304,7 @@ func _TaskService_UpdateTask_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _TaskService_DeleteTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteTaskRequest)
+	in := new(GetTaskRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -252,7 +316,7 @@ func _TaskService_DeleteTask_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: TaskService_DeleteTask_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TaskServiceServer).DeleteTask(ctx, req.(*DeleteTaskRequest))
+		return srv.(TaskServiceServer).DeleteTask(ctx, req.(*GetTaskRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -271,6 +335,78 @@ func _TaskService_ShiftTask_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TaskServiceServer).ShiftTask(ctx, req.(*ShiftTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskService_ListChecklist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).ListChecklist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_ListChecklist_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).ListChecklist(ctx, req.(*GetTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskService_CreateChecklist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateChecklistRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).CreateChecklist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_CreateChecklist_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).CreateChecklist(ctx, req.(*CreateChecklistRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskService_UpdateChecklist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateChecklistRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).UpdateChecklist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_UpdateChecklist_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).UpdateChecklist(ctx, req.(*UpdateChecklistRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskService_DeleteChecklist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetChecklistRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).DeleteChecklist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_DeleteChecklist_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).DeleteChecklist(ctx, req.(*GetChecklistRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -305,6 +441,22 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ShiftTask",
 			Handler:    _TaskService_ShiftTask_Handler,
+		},
+		{
+			MethodName: "ListChecklist",
+			Handler:    _TaskService_ListChecklist_Handler,
+		},
+		{
+			MethodName: "CreateChecklist",
+			Handler:    _TaskService_CreateChecklist_Handler,
+		},
+		{
+			MethodName: "UpdateChecklist",
+			Handler:    _TaskService_UpdateChecklist_Handler,
+		},
+		{
+			MethodName: "DeleteChecklist",
+			Handler:    _TaskService_DeleteChecklist_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

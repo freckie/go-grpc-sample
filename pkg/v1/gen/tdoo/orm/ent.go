@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"frec.kr/tdoo/pkg/v1/gen/tdoo/orm/checklist"
 	"frec.kr/tdoo/pkg/v1/gen/tdoo/orm/task"
 	"frec.kr/tdoo/pkg/v1/gen/tdoo/orm/user"
 )
@@ -74,8 +75,9 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			task.Table: task.ValidColumn,
-			user.Table: user.ValidColumn,
+			checklist.Table: checklist.ValidColumn,
+			task.Table:      task.ValidColumn,
+			user.Table:      user.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

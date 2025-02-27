@@ -19,9 +19,14 @@ service TaskService {
 	rpc ListTask		(ListTaskRequest)   returns (ListTaskResponse);
 	rpc CreateTask	(CreateTaskRequest) returns (Task);
 	rpc UpdateTask  (UpdateTaskRequest) returns (Task);
-	rpc DeleteTask  (DeleteTaskRequest) returns (google.protobuf.Empty);
+	rpc DeleteTask  (GetTaskRequest)		returns (google.protobuf.Empty);
 
-	rpc ShiftTask   (ShiftTaskRequest)  returns (google.protobuf.Empty);
+	rpc ShiftTask (ShiftTaskRequest) returns (google.protobuf.Empty);
+
+	rpc ListChecklist (GetTaskRequest) returns (ListChecklistResponse);
+	rpc CreateChecklist (CreateChecklistRequest) returns (Checklist);
+	rpc UpdateChecklist (UpdateChecklistRequest) returns (Checklist);
+	rpc DeleteChecklist (GetChecklistRequest) returns (google.protobuf.Empty);
 }
 
 message TaskRequestOptions {
@@ -89,4 +94,23 @@ message DeleteTaskRequest {
 message ShiftTaskRequest {
 	bytes id = 1;
 	TaskStatus next = 2;
+}
+
+message ListChecklistResponse {
+	repeated Checklist items = 1;
+}
+
+message CreateChecklistRequest {
+	string title = 2;
+	optional bool finished = 3;
+	GetTaskRequest task = 4;
+}
+
+message UpdateChecklistRequest {
+	Checklist checklist = 1;
+	google.protobuf.FieldMask update_mask = 2;
+}
+
+message GetChecklistRequest {
+	bytes id = 1;
 }

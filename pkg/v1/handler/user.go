@@ -20,27 +20,27 @@ func NewUserHandler(svc *service.UserService) *UserHandler {
 	return &UserHandler{svc: svc}
 }
 
-func (u UserHandler) Get(ctx context.Context, req *tdoo.UserGetRequest) (*tdoo.User, error) {
+func (u UserHandler) Get(ctx context.Context, req *tdoo.GetUserRequest) (*tdoo.User, error) {
 	// TODO implement me
 	return nil, status.Error(codes.Unimplemented, "not implemented yet")
 }
 
-func (u UserHandler) List(ctx context.Context, req *tdoo.UserListRequest) (*tdoo.UserListResponse, error) {
+func (u UserHandler) List(ctx context.Context, req *tdoo.ListUserRequest) (*tdoo.ListUserResponse, error) {
 	// TODO implement me
 	return nil, status.Error(codes.Unimplemented, "not implemented yet")
 }
 
-func (u UserHandler) Create(ctx context.Context, req *tdoo.UserCreateRequest) (*tdoo.User, error) {
+func (u UserHandler) Create(ctx context.Context, req *tdoo.CreateUserRequest) (*tdoo.User, error) {
 	// TODO implement me
 	return nil, status.Error(codes.Unimplemented, "not implemented yet")
 }
 
-func (u UserHandler) Update(ctx context.Context, req *tdoo.UserUpdateRequest) (*tdoo.User, error) {
+func (u UserHandler) Update(ctx context.Context, req *tdoo.UpdateUserRequest) (*tdoo.User, error) {
 	// TODO implement me
 	return nil, status.Error(codes.Unimplemented, "not implemented yet")
 }
 
-func (u UserHandler) Delete(ctx context.Context, req *tdoo.UserDeleteRequest) (*emptypb.Empty, error) {
+func (u UserHandler) Delete(ctx context.Context, req *tdoo.DeleteUserRequest) (*emptypb.Empty, error) {
 	// TODO implement me
 	return nil, status.Error(codes.Unimplemented, "not implemented yet")
 }

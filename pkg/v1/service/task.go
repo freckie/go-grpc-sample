@@ -25,32 +25,32 @@ func NewTaskService(
 	}
 }
 
-func (t TaskService) Get(ctx context.Context, req *tdoo.TaskGetRequest) (*tdoo.Task, error) {
+func (t TaskService) Get(ctx context.Context, req *tdoo.GetTaskRequest) (*tdoo.Task, error) {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (t TaskService) List(ctx context.Context, req *tdoo.TaskListRequest) (*tdoo.TaskListResponse, error) {
+func (t TaskService) List(ctx context.Context, req *tdoo.ListTaskRequest) (*tdoo.ListTaskResponse, error) {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (t TaskService) Create(ctx context.Context, req *tdoo.TaskCreateRequest) (*tdoo.Task, error) {
+func (t TaskService) Create(ctx context.Context, req *tdoo.CreateTaskRequest) (*tdoo.Task, error) {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (t TaskService) Update(ctx context.Context, req *tdoo.TaskUpdateRequest) (*tdoo.Task, error) {
+func (t TaskService) Update(ctx context.Context, req *tdoo.UpdateTaskRequest) (*tdoo.Task, error) {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (t TaskService) Delete(ctx context.Context, req *tdoo.TaskDeleteRequest) (*emptypb.Empty, error) {
+func (t TaskService) Delete(ctx context.Context, req *tdoo.DeleteTaskRequest) (*emptypb.Empty, error) {
 	// TODO implement me
 	panic("implement me")
 }
 
-func (t TaskService) Shift(ctx context.Context, req *tdoo.TaskShiftRequest) (*emptypb.Empty, error) {
+func (t TaskService) Shift(ctx context.Context, req *tdoo.ShiftTaskRequest) (*emptypb.Empty, error) {
 	// TODO implement me
 	panic("implement me")
 }
