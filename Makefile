@@ -35,7 +35,7 @@ generate-proto:
 		--orm-ent_out=./pkg/v1/gen \
 		--orm-ent_opt=module=frec.kr/tdoo/pkg/v1/gen \
 		--orm-ent_opt=ent=frec.kr/tdoo/pkg/v1/gen/tdoo/orm \
-		proto/**/*.ent.proto
+		proto/**/*_ent.proto
 
 generate-orm:
 	@echo "generating ORM codes by go ent..."
@@ -52,13 +52,13 @@ generate-common:
 		proto/global/common/*.proto
 
 generate-grpc:
-	@echo "generating gRPC"
+	@echo "generating gRPC..."
 	@protoc -I proto \
 		--go_out=. \
 		--go_opt=module=frec.kr/tdoo \
 		--go-grpc_out=. \
 		--go-grpc_opt=module=frec.kr/tdoo \
-		proto/**/*.svc.proto
+		proto/**/*_svc.proto
 
 # ----------------------------------------------------------------------------
 # Cleaning targets

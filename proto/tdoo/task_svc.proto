@@ -9,8 +9,8 @@ import "google/protobuf/timestamp.proto";
 import "global/common/order.proto";
 import "global/common/time_range.proto";
 import "global/orm/orm.proto";
-import "tdoo/task.ent.proto";
-import "tdoo/user.svc.proto";
+import "tdoo/task_ent.proto";
+import "tdoo/user_svc.proto";
 
 option go_package = "frec.kr/tdoo/pkg/v1/gen/tdoo";
 

@@ -6,7 +6,7 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
 import "global/orm/orm.proto";
-import "tdoo/user.ent.proto";
+import "tdoo/user_ent.proto";
 
 option go_package = "frec.kr/tdoo/pkg/v1/gen/tdoo";
 

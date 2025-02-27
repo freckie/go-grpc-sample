@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.29.2
-// source: tdoo/task.svc.proto
+// source: tdoo/task_svc.proto
 
 package tdoo
 
@@ -308,5 +308,5 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "tdoo/task.svc.proto",
+	Metadata: "tdoo/task_svc.proto",
 }

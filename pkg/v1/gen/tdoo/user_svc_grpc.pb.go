@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.29.2
-// source: tdoo/user.svc.proto
+// source: tdoo/user_svc.proto
 
 package tdoo
 
@@ -270,5 +270,5 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "tdoo/user.svc.proto",
+	Metadata: "tdoo/user_svc.proto",
 }
