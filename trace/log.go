@@ -1,17 +1,18 @@
-package log
+package trace
 
 import (
+	"context"
+	"io"
 	"os"
 
 	"frec.kr/tdoo/config"
+	"frec.kr/tdoo/internal/ctxkey"
 	"github.com/sirupsen/logrus"
 )
 
 type Logger struct {
 	*logrus.Logger
 }
-
-var Log *Logger
 
 func NewLogger(cfg config.LoggerConfig) *Logger {
 	l := logrus.New()
@@ -30,19 +31,36 @@ func NewLogger(cfg config.LoggerConfig) *Logger {
 		l.SetLevel(logrus.InfoLevel)
 	}
 
+	txt := logrus.TextFormatter{
+		DisableSorting: true,
+		PadLevelText:   false,
+	}
 	switch cfg.Format {
 	case "json":
 		l.SetFormatter(&logrus.JSONFormatter{})
 	case "text":
-		l.SetFormatter(&logrus.TextFormatter{})
+		l.SetFormatter(&txt)
 	default:
-		l.SetFormatter(&logrus.TextFormatter{})
+		l.SetFormatter(&txt)
 	}
 
 	return &Logger{l}
 }
 
-func Setup(cfg config.LoggerConfig) {
-	l := NewLogger(cfg)
-	Log = l
+func WithLogger(ctx context.Context, l *Logger) context.Context {
+	return ctxkey.WithKey[*Logger](ctx, l)
+}
+
+func LoggerFrom(ctx context.Context) *Logger {
+	l := ctxkey.From[*Logger](ctx)
+	if l == nil {
+		return discard()
+	}
+	return l
+}
+
+func discard() *Logger {
+	l := logrus.New()
+	l.SetOutput(io.Discard)
+	return &Logger{l}
 }

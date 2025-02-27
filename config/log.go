@@ -10,6 +10,13 @@ type LoggerConfig struct {
 	Format string `yaml:"format"`
 }
 
+func DefaultLoggerConfig() LoggerConfig {
+	return LoggerConfig{
+		Level:  "info",
+		Format: "text",
+	}
+}
+
 func (c *LoggerConfig) Evaluate() error {
 	c.Level = strings.ToLower(c.Level)
 	switch c.Level {

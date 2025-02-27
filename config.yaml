@@ -4,6 +4,6 @@ db:
   driver: sqlite3
   source: file:tmp.db?mode=memory&_fk=1&cache=shared
 
-logging:
+logger:
   level: info
   format: text
