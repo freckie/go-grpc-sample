@@ -32,7 +32,7 @@ func NewLogger(cfg config.LoggerConfig) *Logger {
 	}
 
 	txt := logrus.TextFormatter{
-		DisableSorting: true,
+		DisableSorting: false,
 		PadLevelText:   false,
 	}
 	switch cfg.Format {
